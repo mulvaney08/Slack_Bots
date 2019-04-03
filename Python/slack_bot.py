@@ -1,17 +1,37 @@
 ''' Usage: Slack_bot <slack_token> <slack_channel> <slack_bot_name> <slack_message>
+Created by Aaron Mulvaney
 '''
 import sys
-import os
 import requests
 
 from slackclient import SlackClient
 
-slack_token = sys.argv[1]
-slack_channel = sys.argv[2]
-bot_name = sys.argv[3]
-slack_message = sys.argv[4]
+if len(sys.argv) < 2:
+    print("Slack token missing")
+    sys.exit(1)
+else:
+    SLACK_TOKEN = sys.argv[1]
 
-def post_to_slack(slack_token, slack_channel, bot_name ,slack_message):
+if len(sys.argv) < 3:
+    print("Slack channel missing")
+    sys.exit(1)
+else:
+    SLACK_CHANNEL = sys.argv[2]
+
+if len(sys.argv) < 4:
+    print("Bot name missing")
+    sys.exit(1)
+else:
+    BOT_NAME = sys.argv[3]
+
+if len(sys.argv) < 5:
+    print("Slack message missing")
+    sys.exit(1)
+else:
+    SLACK_MESSAAGE = sys.argv[4]
+
+
+def post_to_slack(slack_token, slack_channel, bot_name, slack_message):
     '''Post slack_message to slack using bot
     '''
     try:
@@ -21,8 +41,9 @@ def post_to_slack(slack_token, slack_channel, bot_name ,slack_message):
                               icon_emoji=':robot_face:')
         return result.get('ok', False)
     except requests.exceptions.RequestException as exception:
-        print(exception('Exception: %s', exception))
+        print('Exception: %s', exception)
         sys.exit(1)
 
+
 if __name__ == "__main__":
-    post_to_slack(slack_token,slack_channel,bot_name,slack_message)
+    post_to_slack(SLACK_TOKEN, SLACK_CHANNEL, BOT_NAME, SLACK_MESSAAGE)
